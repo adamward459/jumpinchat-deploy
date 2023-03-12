@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y \
   cron \
   rsyslog
 
-RUN curl -sL https://bootstrap.pypa.io/get-pip.py | python && \
+RUN curl -sL https://bootstrap.pypa.io/pip/2.7/get-pip.py| python && \
   pip install awscli
 
 ADD *.sh /root/

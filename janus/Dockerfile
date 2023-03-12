@@ -10,7 +10,6 @@ RUN apt-get update > /dev/null && \
         curl \
         git \
         build-essential \
-        cmake \
         gcc \
         automake \
         wget \
@@ -29,6 +28,13 @@ RUN apt-get update > /dev/null && \
         libtool \
         gtk-doc-tools \
         libconfig-dev
+# Download and extract CMake 3.12
+RUN wget https://cmake.org/files/v3.12/cmake-3.12.0.tar.gz && \
+    tar -xvf cmake-3.12.0.tar.gz && \
+    cd cmake-3.12.0 && \
+    ./bootstrap && \
+    make && \
+    make install
 
 RUN mkdir -p $INSTALL_DIR && mkdir -p $JANUS_DIR/certs
 
@@ -86,7 +92,7 @@ RUN git clone https://github.com/warmcat/libwebsockets.git ${INSTALL_DIR}/libweb
 
 # build janus gateway
 #ARG JANUS_VERSION=tags/v0.10.4
-ARG JANUS_VERSION=sendmmsg
+ARG JANUS_VERSION=tags/v0.10.4
 RUN git clone https://github.com/meetecho/janus-gateway.git ${INSTALL_DIR}/janus-gateway && \
   cd ${INSTALL_DIR}/janus-gateway && \
   git rev-parse --verify HEAD && \

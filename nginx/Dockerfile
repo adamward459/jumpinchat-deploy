@@ -8,7 +8,7 @@ RUN apt-get update > /dev/null && \
     build-essential \
     python
 
-RUN curl https://bootstrap.pypa.io/get-pip.py | python
+RUN curl https://bootstrap.pypa.io/pip/2.7/get-pip.py | python
 
 
 # Set up SSL
@@ -22,8 +22,8 @@ RUN mkdir -p /var/log/nginx && \
       touch /var/log/nginx/error.log
 
 ARG ENV
-RUN chmod +x /tmp/scripts/download-certs.sh
-RUN /tmp/scripts/download-certs.sh
+# RUN chmod +x /tmp/scripts/download-certs.sh
+# RUN /tmp/scripts/download-certs.sh
 
 COPY ./site /var/www/site/
 
