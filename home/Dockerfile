@@ -31,6 +31,5 @@ RUN chmod +x /tmp/scripts/entry.sh
 FROM node:14
 COPY --from=builder /var/www /var/www
 COPY --from=builder /tmp/scripts/entry.sh /tmp/scripts/entry.sh
-RUN cd  /var/www/jic-homepage/
-RUN npm ci
+RUN  cd /var/www/jic-homepage && npm ci
 ENTRYPOINT ["/tmp/scripts/entry.sh"]
