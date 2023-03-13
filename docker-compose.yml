@@ -123,7 +123,7 @@ services:
 
   mongodbslave:
     image: mongo:3.6
-    command: "--smallfiles --replSet rs0"
+    command: "mongod --smallfiles --replSet rs0"
     expose:
       - "27017"
     logging:
