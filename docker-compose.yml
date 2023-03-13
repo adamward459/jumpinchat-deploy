@@ -38,43 +38,43 @@ services:
       options:
         max-size: '1m'
     restart: always
-  # web2:
-  #   build: 
-  #     context: ./srv
-  #   environment:
-  #     - DEPLOY_LOCATION=local
-  #     - JANUS_HTTP_URI=/janus/http
-  #     - JANUS_HTTPS_URI=/janus/http
-  #     - JANUS_WS_URI=/janus/ws
-  #     - JANUS_WSS_URI=/janus/ws
-  #     - JANUS_CODEC=vp8
-  #     - JANUS_TOKEN_SECRET=$JANUS_TOKEN_SECRET
-  #     - JANUS_SERVER_IDS=janus,janus2
-  #     - JANUS_PLUGINS=janus.plugin.videoroom
-  #     - YT_API_KEY=$YT_API_KEY
-  #     - AWS_SES_ACCESS_KEY=$AWS_SES_ACCESS_KEY
-  #     - AWS_SES_SECRET=$AWS_SES_SECRET
-  #     - AWS_S3_UPLOADS_ACCESS_KEY=$AWS_S3_UPLOADS_ACCESS_KEY
-  #     - AWS_S3_UPLOADS_SECRET=$AWS_S3_UPLOADS_SECRET
-  #     - AWS_S3_UPLOADS_BUCKET=jic-uploads
-  #     - TURN_URIS=turn.example.com
-  #     - GCM_API_KEY=$GCM_API_KEY # key for push notifications
-  #     - STRIPE_SK=$STRIPE_SK
-  #     - STRIPE_WH_KEY=$STRIPE_WH_KEY
-  #     - MONGODB_URI=mongodb://mongodb,mongodbslave/tc?replicaSet=rs0
-  #     - JWT_SECRET=$JWT_SECRET
-  #   expose:
-  #     - "80"
-  #   depends_on:
-  #     - redis
-  #     - mongodb
-  #     - mongodbslave
-  #     - janus
-  #     - janus2
-  #   logging:
-  #     options:
-  #       max-size: '1m'
-  #   restart: always
+  web2:
+    build: 
+      context: ./srv
+    environment:
+      - DEPLOY_LOCATION=local
+      - JANUS_HTTP_URI=/janus/http
+      - JANUS_HTTPS_URI=/janus/http
+      - JANUS_WS_URI=/janus/ws
+      - JANUS_WSS_URI=/janus/ws
+      - JANUS_CODEC=vp8
+      - JANUS_TOKEN_SECRET=$JANUS_TOKEN_SECRET
+      - JANUS_SERVER_IDS=janus,janus2
+      - JANUS_PLUGINS=janus.plugin.videoroom
+      - YT_API_KEY=$YT_API_KEY
+      - AWS_SES_ACCESS_KEY=$AWS_SES_ACCESS_KEY
+      - AWS_SES_SECRET=$AWS_SES_SECRET
+      - AWS_S3_UPLOADS_ACCESS_KEY=$AWS_S3_UPLOADS_ACCESS_KEY
+      - AWS_S3_UPLOADS_SECRET=$AWS_S3_UPLOADS_SECRET
+      - AWS_S3_UPLOADS_BUCKET=jic-uploads
+      - TURN_URIS=turn.example.com
+      - GCM_API_KEY=$GCM_API_KEY # key for push notifications
+      - STRIPE_SK=$STRIPE_SK
+      - STRIPE_WH_KEY=$STRIPE_WH_KEY
+      - MONGODB_URI=mongodb://mongodb,mongodbslave/tc?replicaSet=rs0
+      - JWT_SECRET=$JWT_SECRET
+    expose:
+      - "80"
+    # depends_on:
+    #   - redis
+    #   - mongodb
+    #   - mongodbslave
+    #   - janus
+    #   - janus2
+    logging:
+      options:
+        max-size: '1m'
+    restart: always
 
   # home:
   #   build: 
@@ -109,19 +109,19 @@ services:
   #     options:
   #       max-size: '1m'
 
-  # mongodb:
-  #   image: mongo:3.6
-  #   command: "--smallfiles --replSet rs0"
-  #   # expose:
-  #   #   - "27017"
-  #   ports:
-  #     - "27017:27017"
-  #   volumes:
-  #     - ./data/db:/data/db
-  #   logging:
-  #     options:
-  #       max-size: '1m'
-  #   restart: always
+  mongodb:
+    image: mongo:3.6
+    command: "--smallfiles --replSet rs0"
+    # expose:
+    #   - "27017"
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data/db:/data/db
+    logging:
+      options:
+        max-size: '1m'
+    restart: always
 
   # mongodbslave:
   #   image: mongo:3.6
