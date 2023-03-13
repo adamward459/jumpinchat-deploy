@@ -1,4 +1,4 @@
-FROM node:10 as builder
+FROM node:14 as builder
 
 ENV SERVER_PATH /var/www
 ENV ACTIVE_BRANCH "master"
