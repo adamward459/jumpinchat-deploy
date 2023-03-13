@@ -112,8 +112,6 @@ services:
   mongodb:
     image: mongo:3.6
     command: "--smallfiles --replSet rs0"
-    # expose:
-    #   - "27017"
     ports:
       - "27017:27017"
     volumes:
@@ -123,17 +121,17 @@ services:
         max-size: '1m'
     restart: always
 
-  # mongodbslave:
-  #   image: mongo:3.6
-  #   command: "--smallfiles --replSet rs0"
-  #   expose:
-  #     - "27017"
-  #   logging:
-  #     options:
-  #       max-size: '1m'
-  #   restart: always
-  #   volumes:
-  #     - ./data/db2:/data/db
+  mongodbslave:
+    image: mongo:3.6
+    command: "--smallfiles --replSet rs0"
+    expose:
+      - "27017"
+    logging:
+      options:
+        max-size: '1m'
+    restart: always
+    volumes:
+      - ./data/db2:/data/db
 
   redis:
     image: redis
