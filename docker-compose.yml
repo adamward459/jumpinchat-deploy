@@ -135,12 +135,12 @@ services:
   #   volumes:
   #     - ./data/db2:/data/db
 
-  # redis:
-  #   image: redis
-  #   logging:
-  #     options:
-  #       max-size: '1m'
-  #   restart: always
+  redis:
+    image: redis
+    logging:
+      options:
+        max-size: '1m'
+    restart: always
 
   # nginx:
   #   build:
