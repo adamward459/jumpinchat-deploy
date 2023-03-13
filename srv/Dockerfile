@@ -16,7 +16,7 @@ ENV JANUS_ROOM_SIZE 12
 ENV TURN_URIS "turn.jumpin.chat"
 
 
-RUN apt-get update > /dev/null
+RUN apt-get update
 RUN apt-get install -yqq --no-install-recommends \
         curl \
         git \
