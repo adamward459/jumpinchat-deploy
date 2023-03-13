@@ -24,7 +24,7 @@ services:
       - GCM_API_KEY=$GCM_API_KEY # key for push notifications
       - STRIPE_SK=$STRIPE_SK
       - STRIPE_WH_KEY=$STRIPE_WH_KEY
-      - MONGODB_URI=mongodb://mongodb
+      - MONGODB_URI=mongodb://mongo
       - JWT_SECRET=$JWT_SECRET
     expose:
       - "80"
@@ -55,7 +55,7 @@ services:
       - GCM_API_KEY=$GCM_API_KEY # key for push notifications
       - STRIPE_SK=$STRIPE_SK
       - STRIPE_WH_KEY=$STRIPE_WH_KEY
-      - MONGODB_URI=mongodb://mongodb
+      - MONGODB_URI=mongodb://mongo
       - JWT_SECRET=$JWT_SECRET
     expose:
       - "80"
@@ -97,13 +97,8 @@ services:
   #     options:
   #       max-size: '1m'
 
-  mongodb:
+  mongo:
     image: mongo:4
-    # Uncomment to access DB at port 27017
-    ports:
-      - "27017:27017"
-    # entrypoint: ["/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0"]
-    cpus: .5
 
   redis:
     image: redis
