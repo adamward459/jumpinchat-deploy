@@ -64,38 +64,38 @@ services:
         max-size: '1m'
     restart: on-failure
 
-  # home:
-  #   build:
-  #     context: ./home
-  #   environment:
-  #     - DEPLOY_LOCATION=local
-  #     - STRIPE_KEY_PUBLIC=$STRIPE_KEY_PUBLIC
-  #     - MONGODB_URI=mongodb://mongodb,mongodbslave/tc?replicaSet=rs0
-  #   ports:
-  #     - "3000:3000"
-  #   restart: always
-  #   depends_on:
-  #     - web
-  #     - web2
-  #   logging:
-  #     options:
-  #       max-size: '1m'
-  # home2:
-  #   build:
-  #     context: ./home
-  #   environment:
-  #     - DEPLOY_LOCATION=local
-  #     - STRIPE_KEY_PUBLIC=$STRIPE_KEY_PUBLIC
-  #     - MONGODB_URI=mongodb://mongo/tc?replicaSet=rs0
-  #   expose:
-  #     - "3000"
-  #   restart: always
-  #   depends_on:
-  #     - web
-  #     - web2
-  #   logging:
-  #     options:
-  #       max-size: '1m'
+  home:
+    build:
+      context: ./home
+    environment:
+      - DEPLOY_LOCATION=local
+      - STRIPE_KEY_PUBLIC=$STRIPE_KEY_PUBLIC
+      - MONGODB_URI=mongodb://mongo
+    ports:
+      - "3000:3000"
+    restart: always
+    depends_on:
+      - web
+      - web2
+    logging:
+      options:
+        max-size: '1m'
+  home2:
+    build:
+      context: ./home
+    environment:
+      - DEPLOY_LOCATION=local
+      - STRIPE_KEY_PUBLIC=$STRIPE_KEY_PUBLIC
+      - MONGODB_URI=mongodb://mongo
+    expose:
+      - "3000"
+    restart: always
+    depends_on:
+      - web
+      - web2
+    logging:
+      options:
+        max-size: '1m'
 
   mongo:
     image: mongo:4
