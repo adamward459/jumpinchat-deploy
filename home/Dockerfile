@@ -28,7 +28,7 @@ RUN /tmp/scripts/build.sh
 
 RUN chmod +x /tmp/scripts/entry.sh
 
-FROM node:10
+FROM node:14
 COPY --from=builder /var/www /var/www
 COPY --from=builder /tmp/scripts/entry.sh /tmp/scripts/entry.sh
 ENTRYPOINT ["/tmp/scripts/entry.sh"]
