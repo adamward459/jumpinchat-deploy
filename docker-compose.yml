@@ -109,23 +109,23 @@ services:
         max-size: "1m"
     restart: always
 
-  # nginx:
-  #   build:
-  #     context: ./nginx
-  #     args:
-  #       - ENV
-  #   ports:
-  #     - "80:80"
-  #     - "443:443"
-  #   logging:
-  #     options:
-  #       max-size: '1m'
-  #   depends_on:
-  #     - web
-  #     - web2
-  #     - home
-  #     - home2
-  #   restart: on-failure
+  nginx:
+    build:
+      context: ./nginx
+      args:
+        - ENV
+    ports:
+      - "80:80"
+      - "443:443"
+    logging:
+      options:
+        max-size: '1m'
+    depends_on:
+      - web
+      - web2
+      - home
+      - home2
+    restart: on-failure
 
   janus:
     image: 'canyan/janus-gateway:0.10.7'
