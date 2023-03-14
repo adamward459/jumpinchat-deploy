@@ -26,6 +26,7 @@ services:
       - STRIPE_WH_KEY=$STRIPE_WH_KEY
       - MONGODB_URI=mongodb://mongo
       - JWT_SECRET=$JWT_SECRET
+      - COOKIE_SECRET=secret
     expose:
       - "80"
     logging:
@@ -57,6 +58,7 @@ services:
       - STRIPE_WH_KEY=$STRIPE_WH_KEY
       - MONGODB_URI=mongodb://mongo
       - JWT_SECRET=$JWT_SECRET
+      - COOKIE_SECRET=secret
     expose:
       - "80"
     logging:
@@ -146,8 +148,8 @@ services:
   #   restart: always
 
   janus2:
-    build:
-      context: ./janus
+    image: 'canyan/janus-gateway:0.10.7'
+    command: ["/usr/local/bin/janus", "-F", "/usr/local/etc/janus"]
     expose:
       - "8088"
       - "8889"
