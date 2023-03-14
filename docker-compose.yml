@@ -127,25 +127,25 @@ services:
   #     - home2
   #   restart: on-failure
 
-  # janus:
-  #   build:
-  #     context: ./janus
-  #   expose:
-  #     - "8088"
-  #     - "8889"
-  #     - "8188"
-  #     - "8989"
-  #     - "7888"
-  #   environment:
-  #     - DEBUG_COLORS=false
-  #     - SERVER_NAME=janus
-  #     - ENABLE_EVENTS=true
-  #     - ENABLE_RABBIT_EVENTS=false
-  #     - JANUS_TOKEN_SECRET=$JANUS_TOKEN_SECRET
-  #   logging:
-  #     options:
-  #       max-size: '1m'
-  #   restart: always
+  janus:
+    image: 'canyan/janus-gateway:0.10.7'
+    command: ["/usr/local/bin/janus", "-F", "/usr/local/etc/janus"]
+    expose:
+      - "8088"
+      - "8889"
+      - "8188"
+      - "8989"
+      - "7888"
+    environment:
+      - DEBUG_COLORS=false
+      - SERVER_NAME=janus
+      - ENABLE_EVENTS=true
+      - ENABLE_RABBIT_EVENTS=false
+      - JANUS_TOKEN_SECRET=$JANUS_TOKEN_SECRET
+    logging:
+      options:
+        max-size: '1m'
+    restart: always
 
   janus2:
     image: 'canyan/janus-gateway:0.10.7'
