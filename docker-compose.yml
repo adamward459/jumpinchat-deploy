@@ -145,7 +145,7 @@ services:
     logging:
       options:
         max-size: '1m'
-    restart: always
+    restart: on-failure
 
   janus2:
     image: 'canyan/janus-gateway:0.10.7'
@@ -173,6 +173,66 @@ services:
       context: ./haproxy
     expose:
       - "80"
+    logging:
+      options:
+        max-size: '1m'
+    restart: on-failure
+
+  janus3:
+    image: 'canyan/janus-gateway:0.10.7'
+    command: ["/usr/local/bin/janus", "-F", "/usr/local/etc/janus"]
+    expose:
+      - "8088"
+      - "8889"
+      - "8188"
+      - "8989"
+      - "7888"
+    environment:
+      - DEBUG_COLORS=false
+      - SERVER_NAME=janus
+      - ENABLE_EVENTS=true
+      - ENABLE_RABBIT_EVENTS=false
+      - JANUS_TOKEN_SECRET=$JANUS_TOKEN_SECRET
+    logging:
+      options:
+        max-size: '1m'
+    restart: on-failure   
+
+  janus4:
+    image: 'canyan/janus-gateway:0.10.7'
+    command: ["/usr/local/bin/janus", "-F", "/usr/local/etc/janus"]
+    expose:
+      - "8088"
+      - "8889"
+      - "8188"
+      - "8989"
+      - "7888"
+    environment:
+      - DEBUG_COLORS=false
+      - SERVER_NAME=janus
+      - ENABLE_EVENTS=true
+      - ENABLE_RABBIT_EVENTS=false
+      - JANUS_TOKEN_SECRET=$JANUS_TOKEN_SECRET
+    logging:
+      options:
+        max-size: '1m'
+    restart: on-failure
+
+  janus5:
+    image: 'canyan/janus-gateway:0.10.7'
+    command: ["/usr/local/bin/janus", "-F", "/usr/local/etc/janus"]
+    expose:
+      - "8088"
+      - "8889"
+      - "8188"
+      - "8989"
+      - "7888"
+    environment:
+      - DEBUG_COLORS=false
+      - SERVER_NAME=janus
+      - ENABLE_EVENTS=true
+      - ENABLE_RABBIT_EVENTS=false
+      - JANUS_TOKEN_SECRET=$JANUS_TOKEN_SECRET
     logging:
       options:
         max-size: '1m'
