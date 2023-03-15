@@ -62,11 +62,6 @@ nat: {
   nice_debug = false
 }
 
-certificates: {
-  cert_pem = "${JANUS_DIR}/certs/fullchain.pem"
-  cert_key = "${JANUS_DIR}/certs/privkey.pem"
-}
-
 media: {
   no_media_timer = 5
 }
@@ -101,24 +96,26 @@ admin: {
   admin_https = true
   admin_secure_port = 7889
 }
-
-certificates: {
-  cert_pem = "${JANUS_DIR}/certs/fullchain.pem"
-  cert_key = "${JANUS_DIR}/certs/privkey.pem"
-}
 EOF
 
 cat << EOF > ${JANUS_DIR}/etc/janus/janus.transport.websockets.jcfg
 general: {
   ws = true
   ws_port = 8188
-  wss = true
-  wss_port = 8989
-}
-
-certificates: {
-  cert_pem = "${JANUS_DIR}/certs/fullchain.pem"
-  cert_key = "${JANUS_DIR}/certs/privkey.pem"
+  ws_ssl = false
+  ws_cert_pem = ""
+  ws_key_pem = ""
+  ws_ca_cert_pem = ""
+  ws_allow_anonymous = true
+  ws_allow_all_origins = true
+  ws_keepalive_interval = 30
+  ws_max_pending_send_messages = 100
+  ws_max_pending_recv_messages = 100
+  ws_max_message_size = 1048576
+  ws_max_message_size_warn = 262144
+  ws_max_data_size = 10485760
+  ws_send_timeout = 10000
+  ws_recv_timeout = 10000
 }
 EOF
 

@@ -12,6 +12,7 @@ services:
       - JANUS_WSS_URI=/janus/ws
       - JANUS_CODEC=vp8
       - JANUS_TOKEN_SECRET=$JANUS_TOKEN_SECRET
+      - JANUS_HTTP_URI_INTERNAL=http://janus:7888/admin
       - JANUS_SERVER_IDS=janus,janus2
       - JANUS_PLUGINS=janus.plugin.videoroom
       - YT_API_KEY=$YT_API_KEY
@@ -33,17 +34,18 @@ services:
       options:
         max-size: "1m"
     restart: on-failure
-  web2:
+
+  web2:    
     build:
-      context: ./srv
+        context: ./srv
     environment:
       - DEPLOY_LOCATION=local
-      - JANUS_HTTP_URI=/janus/http
       - JANUS_HTTPS_URI=/janus/http
       - JANUS_WS_URI=/janus/ws
       - JANUS_WSS_URI=/janus/ws
       - JANUS_CODEC=vp8
       - JANUS_TOKEN_SECRET=$JANUS_TOKEN_SECRET
+      - JANUS_HTTP_URI_INTERNAL=http://janus:7888/admin
       - JANUS_SERVER_IDS=janus,janus2
       - JANUS_PLUGINS=janus.plugin.videoroom
       - YT_API_KEY=$YT_API_KEY
@@ -78,10 +80,10 @@ services:
     restart: always
     depends_on:
       - web
-      - web2
     logging:
       options:
         max-size: '1m'
+
   home2:
     build:
       context: ./home
@@ -94,10 +96,10 @@ services:
     restart: always
     depends_on:
       - web
-      - web2
     logging:
       options:
         max-size: '1m'
+
 
   mongo:
     image: mongo:4
@@ -109,27 +111,42 @@ services:
         max-size: "1m"
     restart: always
 
-  # nginx:
-  #   build:
-  #     context: ./nginx
-  #     args:
-  #       - ENV
-  #   ports:
-  #     - "80:80"
-  #     - "443:443"
-  #   logging:
-  #     options:
-  #       max-size: '1m'
-  #   depends_on:
-  #     - web
-  #     - web2
-  #     - home
-  #     - home2
-  #   restart: on-failure
+  nginx:
+    build:
+      context: ./nginx
+      args:
+        - ENV
+    ports:
+      - "80:80"
+      - "443:443"
+    logging:
+      options:
+        max-size: '1m'
+    restart: on-failure
 
   janus:
     image: 'canyan/janus-gateway:0.10.7'
-    command: ["/usr/local/bin/janus", "-F", "/usr/local/etc/janus"]
+    
+    expose:
+      - "8088"
+      - "8889"
+      - "8188"
+      - "8989"
+      - "7888"
+    environment:
+      - DEBUG_COLORS=false
+      - SERVER_NAME=janus
+      - ENABLE_EVENTS=true
+      - ENABLE_RABBIT_EVENTS=false
+      - JANUS_TOKEN_SECRET=$JANUS_TOKEN_SECRET
+    logging:
+      options:
+        max-size: '1m'
+    restart: on-failure
+
+  janus:
+    build:
+      context: ./janus
     expose:
       - "8088"
       - "8889"
@@ -148,39 +165,8 @@ services:
     restart: on-failure
 
   janus2:
-    image: 'canyan/janus-gateway:0.10.7'
-    command: ["/usr/local/bin/janus", "-F", "/usr/local/etc/janus"]
-    expose:
-      - "8088"
-      - "8889"
-      - "8188"
-      - "8989"
-      - "7888"
-    environment:
-      - DEBUG_COLORS=false
-      - SERVER_NAME=janus2
-      - ENABLE_EVENTS=true
-      - ENABLE_RABBIT_EVENTS=false
-      - JANUS_TOKEN_SECRET=$JANUS_TOKEN_SECRET
-    logging:
-      options:
-        max-size: '1m'
-    volumes:
-      - ./core:/opt/janus/bin/core
-    restart: always
-  haproxy:
     build:
-      context: ./haproxy
-    expose:
-      - "80"
-    logging:
-      options:
-        max-size: '1m'
-    restart: on-failure
-
-  janus3:
-    image: 'canyan/janus-gateway:0.10.7'
-    command: ["/usr/local/bin/janus", "-F", "/usr/local/etc/janus"]
+      context: ./janus
     expose:
       - "8088"
       - "8889"
@@ -196,11 +182,31 @@ services:
     logging:
       options:
         max-size: '1m'
-    restart: on-failure   
+    restart: on-failure
+
+  janus3:
+    build:
+      context: ./janus
+    expose:
+      - "8088"
+      - "8889"
+      - "8188"
+      - "8989"
+      - "7888"
+    environment:
+      - DEBUG_COLORS=false
+      - SERVER_NAME=janus
+      - ENABLE_EVENTS=true
+      - ENABLE_RABBIT_EVENTS=false
+      - JANUS_TOKEN_SECRET=$JANUS_TOKEN_SECRET
+    logging:
+      options:
+        max-size: '1m'
+    restart: on-failure            
 
   janus4:
-    image: 'canyan/janus-gateway:0.10.7'
-    command: ["/usr/local/bin/janus", "-F", "/usr/local/etc/janus"]
+    build:
+      context: ./janus
     expose:
       - "8088"
       - "8889"
@@ -219,8 +225,8 @@ services:
     restart: on-failure
 
   janus5:
-    image: 'canyan/janus-gateway:0.10.7'
-    command: ["/usr/local/bin/janus", "-F", "/usr/local/etc/janus"]
+    build:
+      context: ./janus
     expose:
       - "8088"
       - "8889"
@@ -233,6 +239,16 @@ services:
       - ENABLE_EVENTS=true
       - ENABLE_RABBIT_EVENTS=false
       - JANUS_TOKEN_SECRET=$JANUS_TOKEN_SECRET
+    logging:
+      options:
+        max-size: '1m'
+    restart: on-failure
+
+  haproxy:
+    build: 
+      context: ./haproxy
+    expose:
+      - "80"
     logging:
       options:
         max-size: '1m'
