@@ -124,25 +124,6 @@ services:
         max-size: '1m'
     restart: on-failure
 
-  janus:
-    image: 'canyan/janus-gateway:0.10.7'
-    
-    expose:
-      - "8088"
-      - "8889"
-      - "8188"
-      - "8989"
-      - "7888"
-    environment:
-      - DEBUG_COLORS=false
-      - SERVER_NAME=janus
-      - ENABLE_EVENTS=true
-      - ENABLE_RABBIT_EVENTS=false
-      - JANUS_TOKEN_SECRET=$JANUS_TOKEN_SECRET
-    logging:
-      options:
-        max-size: '1m'
-    restart: on-failure
 
   janus:
     build:
