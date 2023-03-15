@@ -8,8 +8,8 @@ ENV PORT 3000
 ENV MONGODB_URI "mongodb://mongodb/tc"
 
 
-RUN apt-get update
-RUN apt-get install -y \
+RUN apt-get update > /dev/null && \
+        apt-get install -y \
         curl \
         git \
         sudo \
