@@ -112,10 +112,7 @@ services:
     restart: always
 
   nginx:
-    build:
-      context: ./nginx
-      args:
-        - ENV
+    image: nginx
     ports:
       - "80:80"
       - "443:443"
