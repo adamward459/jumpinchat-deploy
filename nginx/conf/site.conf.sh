@@ -123,16 +123,7 @@ gzip_buffers 16 8k;
 
 server {
   listen 80;
-  listen 443 ssl;
-  server_name _;
-  include /etc/nginx/root-ssl.conf;
-  limit_req zone=sitelimit burst=100 nodelay;
-  return 444;
-}
-
-server {
-  listen 443 ssl http2;
-  listen [::]:443 ssl http2;
+  listen [::]:80;
 
   server_name "~^172\.\d{1,3}\.\d{1,3}\.\d{1,3}\$" "~^10\.136\.\d{1,3}\.\d{1,3}\$" jumpin.chat local.jumpin.chat jumpinchat.com;
   client_max_body_size 10M;
@@ -145,8 +136,6 @@ server {
   gzip_types text/plain application/javascript application/x-javascript text/javascript text/xml text/css;
   gzip_buffers 16 8k;
   limit_req zone=sitelimit burst=100 nodelay;
-
-  include /etc/nginx/root-ssl.conf;
 
   location / {
     try_files \$uri \$uri/ @homepage;
@@ -212,23 +201,5 @@ server {
   location = /robots.txt  {
     root /var/www/site/;
   }
-}
-
-server {
-  listen 80;
-  listen 443 ssl;
-
-  server_name www.jumpinchat.com www.jumpin.chat;
-  server_tokens off;
-  limit_req zone=sitelimit burst=10 nodelay;
-  return 301 https://jumpin.chat\$request_uri;
-}
-
-server {
-  listen 80;
-  server_name jumpin.chat www.jumpin.chat local.jumpin.chat jumpinchat.com www.jumpinchat.com;
-  server_tokens off;
-  limit_req zone=sitelimit burst=10 nodelay;
-  return 301 https://\$host\$request_uri;
 }
 EOF
